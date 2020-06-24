@@ -1,6 +1,7 @@
 package com.example.flixster.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,8 +14,11 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.flixster.MovieDetailsActivity;
 import com.example.flixster.R;
 import com.example.flixster.models.Movie;
+
+import org.parceler.Parcels;
 
 import java.util.List;
 
@@ -31,14 +35,12 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder>{
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        Log.e("MovieAdapter", "oncreate");
         View movieView = LayoutInflater.from(context).inflate(R.layout.item_movie, parent, false);
         return new ViewHolder(movieView);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Log.e("MovieAdapter", "onbind " + position);
         Movie movie = movies.get(position);
         holder.bind(movie);
     }
@@ -48,7 +50,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder>{
         return movies.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         TextView tvTitle;
         TextView tvOverview;
@@ -56,6 +58,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder>{
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+            itemView.setOnClickListener(this);
             tvTitle = itemView.findViewById(R.id.tvTitle);
             tvOverview = itemView.findViewById(R.id.tvOverview);
             ivPoster = itemView.findViewById(R.id.ivPoster);
@@ -72,6 +75,17 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder>{
                 imageUrl = movie.getPosterPath();
             }
             Glide.with(context).load(imageUrl).into(ivPoster);
+        }
+
+        @Override
+        public void onClick(View view) {
+            int position = getAdapterPosition();
+            if(position != RecyclerView.NO_POSITION){
+                Movie movie = movies.get(position);
+                Intent intent = new Intent(context, MovieDetailsActivity.class);
+                intent.putExtra(Movie.class.getSimpleName(), Parcels.wrap(movie));
+                context.startActivity(intent);
+            }
         }
     }
 
