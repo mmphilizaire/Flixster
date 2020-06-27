@@ -14,6 +14,7 @@ import java.util.List;
 @Parcel
 public class Movie {
 
+    //fields
     String backdropPath;
     String posterPath;
     String title;
@@ -23,11 +24,14 @@ public class Movie {
     Date releaseDate;
     Integer id;
 
+
+    //constructors
     public Movie(){
 
     }
 
     public Movie(JSONObject jsonObject) throws JSONException, ParseException {
+        //set fields using jsonobject parameter
         backdropPath = jsonObject.getString("backdrop_path");
         posterPath = jsonObject.getString("poster_path");
         title = jsonObject.getString("title");
@@ -38,6 +42,7 @@ public class Movie {
         id = jsonObject.getInt("id");
     }
 
+    //create list of movies from jsonarray
     public static List<Movie> fromJSONArray(JSONArray movieJSONArray) throws JSONException, ParseException {
         List<Movie> movies = new ArrayList<>();
         for(int i = 0; i < movieJSONArray.length(); i++){
@@ -46,6 +51,7 @@ public class Movie {
         return movies;
     }
 
+    //getters
     public String getPosterPath() {
         return String.format("https://image.tmdb.org/t/p/w342/%s", posterPath);
     }

@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //create view
         super.onCreate(savedInstanceState);
         ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
 
@@ -41,12 +42,13 @@ public class MainActivity extends AppCompatActivity {
 
         movies = new ArrayList<>();
 
+        //set up recyclerview
         RecyclerView rvMovies = binding.rvMovies;
-
         final MovieAdapter movieAdapter = new MovieAdapter(this, movies);
         rvMovies.setAdapter(movieAdapter);
         rvMovies.setLayoutManager(new LinearLayoutManager(this));
 
+        //get jsonobject from the now playing movie api
         AsyncHttpClient client = new AsyncHttpClient();
         client.get(NOW_PLAYING_URL+getString(R.string.movie_api_key), new JsonHttpResponseHandler() {
             @Override

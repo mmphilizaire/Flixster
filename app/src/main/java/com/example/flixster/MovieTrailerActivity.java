@@ -28,8 +28,8 @@ public class MovieTrailerActivity extends YouTubeBaseActivity {
         View view = binding.getRoot();
         setContentView(view);
 
+        //get the video id extra from the intent
         final String videoId = getIntent().getStringExtra("video_id");
-        Log.d(TAG, "video_id: "+videoId);
 
         // resolve the player view from the layout
         YouTubePlayerView playerView = binding.player;
